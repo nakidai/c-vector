@@ -68,18 +68,17 @@ typedef struct cvector_metadata_t {
  * the type of a given expression depending on the language
  */
 #ifdef __cplusplus
-#include <type_traits>
 /* When macros are used, arguments are often get enclosed in
  * parentheses. When decltype() gets a parenthesized expression, it
  * also makes the type a reference and C++ compiler complains about
- * this during the cast. For this reason the reference part of the type
- * should be manually stripped out
+ * this during the cast. Taking an address of the first element removes
+ * the reference part
  */
 /**
  * @brief cvector_typeof - Return a type of the expression
  * @param expr An expression to examine
  */
-#define cvector_typeof(expr) std::remove_reference<decltype(expr)>::type
+#define cvector_typeof(expr) decltype(&(expr)[0])
 #else
 /**
  * @brief cvector_typeof - Stub macro returning void *
